@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   text:{
-    color: 'white',
+    color: 'black',
     fontSize: 42,
     fontWeight: 'bold',
     textAlign: 'center',
