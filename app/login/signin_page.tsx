@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,13 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const signin_page = () => {
+  /* 비밀번호 숨기기용*/
+  const [password, setPassword] = useState('');
+  const [secure, setSecure] = useState(true);
+
   return (
     <View style={styles.container}>
       {/* 1. 대표 이미지 */}
@@ -20,26 +25,40 @@ const signin_page = () => {
       {/* 2. 이메일 입력창 */}
       <TextInput
         style={styles.input}
-        placeholder="Enter your email"
+        placeholder="이메일을 입력해주세요"
         keyboardType="email-address"
         autoCapitalize="none"
       />
 
       {/* 3. 비밀번호 입력창 */}
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        secureTextEntry={true}
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputWithoutBorder} // 테두리 없는 스타일 적용}
+          placeholder="비밀번호를 입력해주세요"
+          secureTextEntry={secure}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity
+          onPress={() => setSecure(!secure)}
+          style={styles.iconButton}
+        >
+          <AntDesign
+            name={secure ? "eyeo" : "eye"}
+            size={24}
+            color="black"
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* 4. 로그인 버튼 */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>로그인</Text>
       </TouchableOpacity>
 
       {/* 5. 회원가입 버튼 */}
       <TouchableOpacity>
-        <Text style={styles.signupText}>Don't have an account? Sign Up</Text>
+        <Text style={styles.signupText}>계정이 없으신가요? 회원가입</Text>
       </TouchableOpacity>
     </View>
   );
@@ -68,10 +87,34 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 16,
   },
+  inputContainer: {
+    width: '100%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    position: 'relative', // 아이콘의 기준점이 되는 컨테이너
+  },
+  inputWithoutBorder: {
+    flex: 1, // 남은 공간을 채우도록 설정
+    fontSize: 16,
+    padding: 0, // 추가 여백 제거
+    margin: 0, // 추가 여백 제거
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 10,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#007BFF',
+    backgroundColor: 'rgba(106, 191, 64, 1)',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
