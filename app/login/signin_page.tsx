@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 
-const signup_page = () => {
+const signin_page = () => {
   return (
     <View style={styles.container}>
       {/* 1. 대표 이미지 */}
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default signup_page;
+export default signin_page;
