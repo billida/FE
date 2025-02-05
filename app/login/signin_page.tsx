@@ -4,6 +4,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Image,
 } from 'react-native';
@@ -15,51 +20,66 @@ const signin_page = () => {
   const [secure, setSecure] = useState(true);
 
   return (
-    <View style={styles.container}>
-      {/* 1. 대표 이미지 */}
-      <Image
-        source={require('@/assets/images/hhr_billida_icon.png')} 
-        style={styles.logo}
-      />
+    <View 
+      style={styles.container}
+      onStartShouldSetResponder={() => {
+        if (Platform.OS !== 'web') {
+          Keyboard.dismiss();
+        }
+        return false; // 터치 이벤트가 TextInput을 막지 않도록 설정
+      }}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}>
+        <ScrollView contentContainerStyle={styles.scrollView} keyboardShouldPersistTaps="handled">
 
-      {/* 2. 이메일 입력창 */}
-      <TextInput
-        style={styles.input}
-        placeholder="이메일을 입력해주세요"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      {/* 3. 비밀번호 입력창 */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputWithoutBorder} // 테두리 없는 스타일 적용}
-          placeholder="비밀번호를 입력해주세요"
-          secureTextEntry={secure}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TouchableOpacity
-          onPress={() => setSecure(!secure)}
-          style={styles.iconButton}
-        >
-          <AntDesign
-            name={secure ? "eyeo" : "eye"}
-            size={24}
-            color="black"
+          {/* 1. 대표 이미지 */}
+          <Image
+            source={require('@/assets/images/hhr_billida_icon.png')} 
+            style={styles.logo}
+            resizeMode="contain"
           />
-        </TouchableOpacity>
-      </View>
 
-      {/* 4. 로그인 버튼 */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>로그인</Text>
-      </TouchableOpacity>
+          {/* 2. 이메일 입력창 */}
+          <TextInput
+            style={styles.input}
+            placeholder="이메일을 입력해주세요"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-      {/* 5. 회원가입 버튼 */}
-      <TouchableOpacity>
-        <Text style={styles.signupText}>계정이 없으신가요? 회원가입</Text>
-      </TouchableOpacity>
+          {/* 3. 비밀번호 입력창 */}
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputWithoutBorder} // 테두리 없는 스타일 적용}
+              placeholder="비밀번호를 입력해주세요"
+              secureTextEntry={secure}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity
+              onPress={() => setSecure(!secure)}
+              style={styles.iconButton}
+            >
+              <AntDesign
+                name={secure ? "eyeo" : "eye"}
+                size={24}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
+
+          {/* 4. 로그인 버튼 */}
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>로그인</Text>
+          </TouchableOpacity>
+
+          {/* 5. 회원가입 버튼 */}
+          <TouchableOpacity>
+            <Text style={styles.signupText}>계정이 없으신가요? 회원가입</Text>
+          </TouchableOpacity>
+          </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -67,15 +87,27 @@ const signin_page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    flexGrow: 1, // 스크롤 가능하도록 설정
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
+    padding: 20,
+  },
+  keyboardView: {
+    flex: 1, // 키보드가 올라와도 레이아웃 유지
+    width: '100%',
+  },
+  scrollView: {
+    flexGrow: 1, // 스크롤이 필요한 경우 사용
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 40,
+    width: '80%', // 부모 크기의 80% 차지
+    maxWidth: 300, // 최대 크기 제한
+    height: 150, // 고정 높이로 설정하여 입력창이 줄어들지 않게 함
+    marginBottom: 20, // 아래 입력창과 간격 추가
   },
   input: {
     width: '100%',
@@ -99,10 +131,13 @@ const styles = StyleSheet.create({
     position: 'relative', // 아이콘의 기준점이 되는 컨테이너
   },
   inputWithoutBorder: {
-    flex: 1, // 남은 공간을 채우도록 설정
+    position: 'absolute', // 컨테이너 내부에 겹치도록 설정
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
     fontSize: 16,
-    padding: 0, // 추가 여백 제거
-    margin: 0, // 추가 여백 제거
+    paddingHorizontal: 10,
   },
   iconButton: {
     position: 'absolute',
