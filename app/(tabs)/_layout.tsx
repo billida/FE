@@ -7,30 +7,43 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarStyle:{
+          backgroundColor: '#FFFFFF',
+          height: 66,
+          borderTopColor: '#CCCCCC',
+          
+        },
+        tabBarLabelStyle:{
+          fontSize:12,
+          color:'#808080',
+        }
       }}>
-
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: 'chat',
-        }}
-      />
       <Tabs.Screen
         name="home"
         options={{
-          title: 'home',
+          title: '홈',
         }}
       />
+
       <Tabs.Screen
         name="product"
         options={{
-          title: 'product',
+          title: '물품',
+        }}
+      />      
+      
+      <Tabs.Screen
+        name="chat"
+        options={{
+          title: '채팅',
         }}
       />
+
+
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'profile',
+          title: '프로필',
         }}
       />
     </Tabs>
