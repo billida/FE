@@ -1,9 +1,5 @@
-"use client";
 import React from "react";
-import "../../global.css";
-
-import { View, Text, TouchableOpacity } from "react-native";
-
+import { View, Text, Image, Button} from "react-native";
 type RoomProps = {
   product_image_url: string;//사진 어떻게 받아올지 정해야됨
   product_name: string;
@@ -11,19 +7,35 @@ type RoomProps = {
   price: number;
 };
 
-export const RoomObject = ({ product_image_url, product_name, location,price }: RoomProps) => {
-  return (
-    <View className="h-[193px] m-5 p-4 bg-white rounded-lg shadow-md">
-      <View className="flex flex-col items-start space-y-2">
-        <Text className="text-sm font-bold bg-gray">{product_image_url}</Text>
-        <Text className="text-sm font-bold">{product_name}</Text>
-        <Text className="text-sm font-bold">{location}</Text>
-        <Text className="text-sm font-bold">{price}</Text>
-      </View>
-      <TouchableOpacity className="mt-4 px-4 py-2 bg-blue-500 rounded-lg">
-        <Text className="text-white font-semibold">조회</Text>
-      </TouchableOpacity>
 
-    </View>
+const RoomObject = ({ product_image_url, product_name, location,price }: RoomProps) => {
+  return (
+    <View  className="h-[285px] m-1 bg-white">
+        <Image
+          style={{ height: 193, width: '100%' }}
+          source={require('@/components/ui/가방.png')}
+        />
+        <View className="h-[92px] flex justify-evenly">
+          <Text className="text-base font-bold">{product_name}</Text>
+          <View className="flex flex-row items-center">
+            <Image
+              style={{ height: 16, width: 13}}
+              source={require('@/components/ui/location_on.png')}
+            />
+            <Text className="text-sm"> {location}</Text>
+          </View>
+
+          <View className="flex flex-row items-center">
+            <Image
+              style={{ height: 16, width: 13}}
+              source={require('@/components/ui/calendar_today.png')}
+            />
+            <Text className="text-sm"> {price}</Text>
+          </View>
+        </View>
+
+      </View>
   );
 };
+
+export default RoomObject;
