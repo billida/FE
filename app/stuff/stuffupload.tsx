@@ -163,7 +163,7 @@ export default function StuffUpload() {
 }
 
 // 스타일 정의
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
