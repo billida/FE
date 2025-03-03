@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
-  StyleSheet,
   Image,
   SafeAreaView,
 } from 'react-native';
@@ -21,7 +20,7 @@ const ProfileEdit = () => {
   const [secure, setSecure] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [image, setImage] = useState<string | null>(null); // 이미지 상태 관리
+  const [image, setImage] = useState<string | null>(null);
 
   // 이미지 업로드 함수
   const pickImage = () => {
@@ -41,65 +40,62 @@ const ProfileEdit = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1">
 
         {/* 🔹 상단바 (뒤로가기 버튼 + 회원정보 수정 제목) */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <View className="flex-row items-center h-16 border-b border-gray-300 px-4">
+          <TouchableOpacity onPress={() => navigation.goBack()} className="p-2">
             <AntDesign name="arrowleft" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>회원정보 수정</Text>
+          <Text className="text-lg font-bold flex-1 text-center">회원정보 수정</Text>
         </View>
 
-        <KeyboardAvoidingView behavior="height" style={styles.keyboardView}>
-          <ScrollView contentContainerStyle={styles.scrollView} keyboardShouldPersistTaps="handled">
-
+        <KeyboardAvoidingView behavior="height" className="flex-1">
+          <ScrollView contentContainerStyle={{ paddingBottom: 80 }} keyboardShouldPersistTaps="handled">
+            
             {/* 🔹 둥근 프로필 이미지 & 수정 가능한 텍스트 */}
-            <View style={styles.profileContainer}>
+            <View className="items-center my-6">
               <Image
                 source={image ? { uri: image } : require('@/assets/images/billida_icon.png')}
-                style={styles.profileImage}
+                className="w-1 h-1 rounded-full border-4 border-gray-300"
               />
               <TouchableOpacity onPress={pickImage}>
-                <Text style={styles.profileEditText}>프로필 사진 수정</Text>
+                <Text className="mt-2 text-blue-500 text-base font-bold">프로필 사진 수정</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>이름</Text>
+            {/* 🔹 입력 필드 */}
+            <View className="px-6">
+              <Text className="text-sm font-bold mb-2">이름</Text>
               <TextInput
-                style={styles.input}
+                className="w-full h-12 border border-gray-300 rounded-lg px-3 mb-4"
                 value={name}
                 onChangeText={setName}
                 placeholder="이름을 입력하세요"
                 placeholderTextColor="rgba(0, 0, 0, 0.4)"
               />
-            </View>
 
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>이메일</Text>
+              <Text className="text-sm font-bold mb-2">이메일</Text>
               <TextInput
-                style={styles.input}
+                className="w-full h-12 border border-gray-300 rounded-lg px-3 mb-4"
                 value={email}
                 onChangeText={setEmail}
                 placeholder="이메일을 입력하세요"
                 placeholderTextColor="rgba(0, 0, 0, 0.4)"
               />
-            </View>
 
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>비밀번호</Text>
-              <View style={styles.inputContainer}>
+              <Text className="text-sm font-bold mb-2">비밀번호</Text>
+              <View className="w-full h-12 border border-gray-300 rounded-lg flex-row items-center relative">
                 <TextInput
-                  style={styles.inputWithoutBorder}
+                  className="flex-1 px-3"
                   placeholder="비밀번호를 입력해주세요"
                   placeholderTextColor="rgba(0, 0, 0, 0.4)"
                   secureTextEntry={secure}
                   value={password}
                   onChangeText={setPassword}
                 />
-                <TouchableOpacity onPress={() => setSecure(!secure)} style={styles.iconButton}>
+                <TouchableOpacity onPress={() => setSecure(!secure)} className="absolute right-4">
                   <AntDesign name={secure ? 'eyeo' : 'eye'} size={24} color="black" />
                 </TouchableOpacity>
               </View>
@@ -108,9 +104,9 @@ const ProfileEdit = () => {
         </KeyboardAvoidingView>
 
         {/* 🔹 하단 수정완료 버튼 */}
-        <View style={styles.bottomButtonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>수정완료</Text>
+        <View className="absolute bottom-0 w-full bg-white border-t border-gray-300 p-4">
+          <TouchableOpacity className="w-full h-12 bg-green-500 justify-center items-center rounded-lg" onPress={handleSubmit}>
+            <Text className="text-white text-lg font-bold">수정완료</Text>
           </TouchableOpacity>
         </View>
 
@@ -118,127 +114,5 @@ const ProfileEdit = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 60,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    paddingHorizontal: 15,
-  },
-  backButton: {
-    padding: 10,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center',
-    marginRight: 30,
-  },
-  keyboardView: {
-    flex: 1,
-    width: '100%',
-  },
-  scrollView: {
-    flexGrow: 1,
-    paddingBottom: 80,
-  },
-  
-  /* 🔹 프로필 이미지 스타일 */
-  profileContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 100, // 원형 이미지
-    borderWidth: 3, // 액자 스타일
-    borderColor: '#ccc',
-  },
-  profileEditText: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'rgba(106, 191, 64, 1)', // 파란색으로 클릭 가능한 느낌
-  },
-
-  inputGroup: {
-    width: '100%',
-    marginBottom: 15,
-    paddingHorizontal: 20,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    fontSize: 16,
-  },
-  inputContainer: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  inputWithoutBorder: {
-    width: '100%',
-    height: '100%',
-    fontSize: 16,
-    paddingHorizontal: 10,
-  },
-  iconButton: {
-    position: 'absolute',
-    right: 10,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bottomButtonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: 'white',
-    padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#ccc',
-  },
-  button: {
-    width: '90%',
-    height: 50,
-    backgroundColor: 'rgba(106, 191, 64, 1)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    alignSelf: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default ProfileEdit;

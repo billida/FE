@@ -13,11 +13,18 @@ import {
   Image,
 } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'expo-router';
 
 const SignupPage = () => {
   /* 비밀번호 숨기기용 */
   const [password, setPassword] = useState('');
   const [secure, setSecure] = useState(true);
+
+  const router = useRouter(); // ✅ expo-router의 useRouter() 사용
+  const handleSignup = () => {
+    // 회원가입 로직 추가 가능
+    alert('회원가입 완료!');
+  };
 
   return (
     <View 
@@ -78,12 +85,12 @@ const SignupPage = () => {
         </View>
 
         {/* 5. 회원가입 버튼 */}
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSignup}>
           <Text style={styles.buttonText}>회원가입</Text>
         </TouchableOpacity>
 
         {/* 6. 로그인 버튼 */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/login/signin_page')}>
           <Text style={styles.signupText}>계정이 있으신가요? 로그인</Text>
         </TouchableOpacity>
         </ScrollView>

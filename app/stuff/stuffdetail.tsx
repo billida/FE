@@ -15,7 +15,7 @@ const StuffDetailScreen = () => {
     rentalFee: "100,000원 / 주",
     rentalPeriod: "3달",
     deposit: "150,000원",
-    description: "몇번 사용 안했고, 사진과 상태 동일합니다. 학교 ",
+    description: "몇번 사용 안했고, 사진과 상태 동일합니다. 학교 다닐 때, 여행 다닐 때 사용하면 멋지고 좋아요. 특히 사진 잘 나옵니다. ",
   };
 
   return (
@@ -50,7 +50,6 @@ const StuffDetailScreen = () => {
 
       {/* 게시글 */}
       <View style={styles.post}>
-        <Text style={styles.postTitle}>📢 등록자가 올린 게시글</Text>
         <Text style={styles.postContent}>{item.description}</Text>
       </View>
 

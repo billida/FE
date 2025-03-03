@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -13,26 +12,37 @@ import {
   Image,
 } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'expo-router';
 
-const signin_page = () => {
-  /* 비밀번호 숨기기용*/
+const SigninPage = () => {
+  const router = useRouter(); // ✅ useRouter를 사용하여 라우팅 관리
+
+  /* 비밀번호 숨기기용 */
   const [password, setPassword] = useState('');
   const [secure, setSecure] = useState(true);
 
+  // ✅ handleLogin 함수 추가
+  const handleLogin = () => {
+    // 로그인 로직 추가 가능 (예: API 요청)
+    router.push('/home'); // ✅ "main" 페이지로 이동
+  };
+
   return (
-    <View 
+    <View
       style={styles.container}
       onStartShouldSetResponder={() => {
         if (Platform.OS !== 'web') {
           Keyboard.dismiss();
         }
-        return false; // 터치 이벤트가 TextInput을 막지 않도록 설정
-      }}>
+        return false;
+      }}
+    >
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}>
+        style={styles.keyboardView}
+      >
         <ScrollView contentContainerStyle={styles.scrollView} keyboardShouldPersistTaps="handled">
-
+          
           {/* 1. 대표 이미지 */}
           <Image
             source={require('@/assets/images/hhr_billida_icon.png')} 
@@ -51,34 +61,28 @@ const signin_page = () => {
           {/* 3. 비밀번호 입력창 */}
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.inputWithoutBorder} // 테두리 없는 스타일 적용}
+              style={styles.inputWithoutBorder}
               placeholder="비밀번호를 입력해주세요"
               secureTextEntry={secure}
               value={password}
               onChangeText={setPassword}
             />
-            <TouchableOpacity
-              onPress={() => setSecure(!secure)}
-              style={styles.iconButton}
-            >
-              <AntDesign
-                name={secure ? "eyeo" : "eye"}
-                size={24}
-                color="black"
-              />
+            <TouchableOpacity onPress={() => setSecure(!secure)} style={styles.iconButton}>
+              <AntDesign name={secure ? "eyeo" : "eye"} size={24} color="black" />
             </TouchableOpacity>
           </View>
 
           {/* 4. 로그인 버튼 */}
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>로그인</Text>
           </TouchableOpacity>
 
           {/* 5. 회원가입 버튼 */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/login/signup_page')}>
             <Text style={styles.signupText}>계정이 없으신가요? 회원가입</Text>
           </TouchableOpacity>
-          </ScrollView>
+          
+        </ScrollView>
       </KeyboardAvoidingView>
     </View>
   );
@@ -88,26 +92,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    flexGrow: 1, // 스크롤 가능하도록 설정
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 20,
   },
   keyboardView: {
-    flex: 1, // 키보드가 올라와도 레이아웃 유지
+    flex: 1,
     width: '100%',
   },
   scrollView: {
-    flexGrow: 1, // 스크롤이 필요한 경우 사용
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    width: '80%', // 부모 크기의 80% 차지
-    maxWidth: 300, // 최대 크기 제한
-    height: 150, // 고정 높이로 설정하여 입력창이 줄어들지 않게 함
-    marginBottom: 20, // 아래 입력창과 간격 추가
+    width: '80%',
+    maxWidth: 300,
+    height: 150,
+    marginBottom: 20,
   },
   input: {
     width: '100%',
@@ -128,10 +132,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    position: 'relative', // 아이콘의 기준점이 되는 컨테이너
+    position: 'relative',
   },
   inputWithoutBorder: {
-    position: 'absolute', // 컨테이너 내부에 겹치도록 설정
+    position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
@@ -166,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default signin_page;
+export default SigninPage;
